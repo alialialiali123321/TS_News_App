@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../models/article_model.dart';
 
 class NewsTile extends StatelessWidget {
-  const NewsTile({super.key, required this.articleModel});
+  final Articles articles;
 
-  final ArticleModel articleModel;
+  const NewsTile({super.key, required this.articles});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +16,8 @@ class NewsTile extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(6)),
           child: Image(
             image: NetworkImage(
-              articleModel.image!,
+              articles.urlToImage ??
+                  'https://www.goodwoodparkhotel.com/integration/tc-theme/public/img/placeholder_4_3.png',
             ),
             height: 200,
             width: double.infinity,
@@ -26,7 +28,7 @@ class NewsTile extends StatelessWidget {
           height: 12,
         ),
         Text(
-          articleModel.title,
+          articles.title ?? '',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
@@ -39,7 +41,7 @@ class NewsTile extends StatelessWidget {
           height: 8,
         ),
         Text(
-          articleModel.subTitle ?? '',
+          articles.description ?? '',
           maxLines: 2,
           style: const TextStyle(
             color: Colors.grey,
