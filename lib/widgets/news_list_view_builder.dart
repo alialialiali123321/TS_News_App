@@ -1,10 +1,8 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/widgets/news_list_view.dart';
 
-import '../models/article_model.dart';
 import '../services/news_service.dart';
+import 'news_list_view.dart';
 
 class NewsListViewBuilder extends StatefulWidget {
   const NewsListViewBuilder({super.key});
@@ -14,29 +12,31 @@ class NewsListViewBuilder extends StatefulWidget {
 }
 
 class _NewsListViewBuilderState extends State<NewsListViewBuilder> {
-  ArticleModel? articles;
+  dynamic future;
 
   @override
   void initState() {
-    getGeneralNews();
+    future = NewsService(Dio()).getTopHeadlines();
     super.initState();
-  }
-
-  Future<void> getGeneralNews() async {
-    articles = await NewsService(Dio()).getTopHeadlines();
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return ConditionalBuilder(
-      condition: articles != null,
-      builder: (context) => NewsListView(articles: articles),
-      fallback: (context) => const SliverFillRemaining(
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
+    return FutureBuilder(
+      future: future,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return NewsListView(articles: snapshot.data);
+        } else if (snapshot.hasError) {
+          return const SliverFillRemaining(
+            child: Center(child: Text('Oops, an error occurred, try later')),
+          );
+        } else {
+          return const SliverFillRemaining(
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+      },
     );
   }
 }
