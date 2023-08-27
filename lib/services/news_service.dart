@@ -11,7 +11,7 @@ class NewsService {
 
   getTopHeadlines() async {
     try {
-      var response = await dio.get(
+      final response = await dio.get(
           'https://newsapi.org/v2/top-headlines?country=us&apiKey=da3d341845c8419fbe24a61dfa450048&category=sports');
 
       ArticleModel articleModel = ArticleModel.fromJson(response.data);
