@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'categories_list_view.dart';
+import '../widgets/categories_list_view.dart';
+import '../widgets/news_list_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -14,7 +15,11 @@ class HomeView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: RichText(
           text: const TextSpan(
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
             children: <TextSpan>[
               TextSpan(
                 text: 'News',
@@ -27,7 +32,21 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      body: const CategoriesListView(),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: CustomScrollView(
+          physics: BouncingScrollPhysics(),
+          slivers: [
+            SliverToBoxAdapter(child: CategoriesListView()),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 32,
+              ),
+            ),
+            NewsListView(),
+          ],
+        ),
+      ),
     );
   }
 }
