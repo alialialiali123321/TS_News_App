@@ -9,10 +9,10 @@ class NewsService {
 
   NewsService(this.dio);
 
-  getTopHeadlines() async {
+  getTopHeadlines({required String category}) async {
     try {
       final response = await dio.get(
-          'https://newsapi.org/v2/top-headlines?country=us&apiKey=da3d341845c8419fbe24a61dfa450048&category=sports');
+          'https://newsapi.org/v2/top-headlines?country=us&apiKey=da3d341845c8419fbe24a61dfa450048&category=$category');
 
       ArticleModel articleModel = ArticleModel.fromJson(response.data);
 

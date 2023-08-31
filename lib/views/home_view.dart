@@ -43,7 +43,7 @@ class HomeView extends StatelessWidget {
                 height: 26,
               ),
             ),
-            NewsListViewBuilder(),
+            NewsListViewBuilder(category: 'general'),
           ],
         ),
       ),
